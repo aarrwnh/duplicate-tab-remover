@@ -15,7 +15,14 @@ browser.browserAction.onClicked.addListener(async () => {
 		console.log("Removing:", tab.id, tab.url);
 	}
 
-	console.log([...new Set(remove)]);
+	if (remove.length > 0) {
+		await browser.tabs.remove([...new Set(remove)]);
 
-	await browser.tabs.remove([...new Set(remove)]);
+		browser.notifications.create({
+			type: "basic",
+			title: "Duplicate tab remover",
+			message: `Closed ${ remove.length } duplicate tab${remove.length > 1 ? "s" : ""}`,
+			iconUrl: browser.runtime.getURL("trash.svg")
+		});
+	}
 });
