@@ -1,0 +1,11 @@
+{
+	"name": "duplicate-tabs-remover",
+	"author": "Wenereth Arkhilmor",
+	"license": "MIT",
+	"scripts": {
+		"build": "web-ext build && cd web-ext-artifacts && sh -c \"ls | sed -n 's/\\(.*\\)\\.zip/mv \"\\\\1.zip\" \"\\\\1.xpi\"/p' | sh\""
+	},
+	"devDependencies": {
+		"@types/firefox-webext-browser": "^94.0.1"
+	}
+}

@@ -1,5 +1,10 @@
-browser.browserAction.onClicked.addListener(async () => {
-	const currentTab = await browser.tabs.query({ active: true, windowId: browser.windows.WINDOW_ID_CURRENT });
+/** @type browser.tabs._QueryQueryInfo[] */
+let currentTab;
+/** @type number[] */
+let duplicates = [];
+
+browser.tabs.onActivated.addListener(async function () {
+	currentTab = await browser.tabs.query({ active: true, windowId: browser.windows.WINDOW_ID_CURRENT });
 
 	if (currentTab.length !== 1) return;
 
@@ -7,22 +12,35 @@ browser.browserAction.onClicked.addListener(async () => {
 		url: currentTab[0].url
 	});
 
-	const remove = [];
+	duplicates.splice(0);
+	browser.browserAction.setBadgeText({ text: "" });
 
 	for (const tab of tabs) {
 		if (tab.id === currentTab[0].id) continue;
-		remove.push(tab.id);
-		console.log("Removing:", tab.id, tab.url);
+
+		duplicates.push(tab.id);
+
+		console.log("Duplicate:", tab.id, tab.url);
 	}
 
-	if (remove.length > 0) {
-		await browser.tabs.remove([...new Set(remove)]);
+	if (duplicates.length > 0) {
+		browser.browserAction.setBadgeText({ text: String(duplicates.length) });
+	}
+
+	currentTab = null;
+});
+
+browser.browserAction.onClicked.addListener(async () => {
+	if (duplicates.length > 0) {
+		await browser.tabs.remove([...new Set(duplicates)]);
 
 		browser.notifications.create({
 			type: "basic",
 			title: "Duplicate tab remover",
-			message: `Closed ${ remove.length } duplicate tab${remove.length > 1 ? "s" : ""}`,
+			message: `Closed ${ duplicates.length } duplicate tab${ duplicates.length > 1 ? "s" : "" }`,
 			iconUrl: browser.runtime.getURL("trash.svg")
 		});
+
+		browser.browserAction.setBadgeText({ text: "" });
 	}
 });
