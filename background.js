@@ -8,6 +8,8 @@ browser.tabs.onActivated.addListener(async function () {
 
 	if (currentTab.length !== 1) return;
 
+	if (!currentTab[0].url.startsWith("http")) return;
+
 	const tabs = await browser.tabs.query({
 		url: currentTab[0].url
 	});
