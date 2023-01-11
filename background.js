@@ -8,26 +8,25 @@ browser.tabs.onActivated.addListener(async function () {
 
 	if (currentTab.length !== 1) return;
 
-	if (!currentTab[0].url.startsWith("http")) return;
-
-	const tabs = await browser.tabs.query({
-		url: currentTab[0].url
-	});
-
 	duplicates.splice(0);
-	browser.browserAction.setBadgeText({ text: "" });
 
-	for (const tab of tabs) {
-		if (tab.id === currentTab[0].id) continue;
+	if (currentTab[0].url.startsWith("http")) {
+		const tabs = await browser.tabs.query({
+			url: currentTab[0].url
+		});
 
-		duplicates.push(tab.id);
+		for (const tab of tabs) {
+			if (tab.id === currentTab[0].id) continue;
 
-		console.log("Duplicate:", tab.id, tab.url);
+			duplicates.push(tab.id);
+
+			console.log("Duplicate:", tab.id, tab.url);
+		}
 	}
 
-	if (duplicates.length > 0) {
-		browser.browserAction.setBadgeText({ text: String(duplicates.length) });
-	}
+	browser.browserAction.setBadgeText({
+		text: duplicates.length > 0 ? String(duplicates.length) : ""
+	});
 
 	currentTab = null;
 });
