@@ -2,6 +2,8 @@
 let currentTab;
 /** @type number[] */
 let duplicates = [];
+/** @type number[] */
+let removed = [];
 
 browser.tabs.onActivated.addListener(async function () {
 	currentTab = await browser.tabs.query({ active: true, windowId: browser.windows.WINDOW_ID_CURRENT });
@@ -16,7 +18,7 @@ browser.tabs.onActivated.addListener(async function () {
 		});
 
 		for (const tab of tabs) {
-			if (tab.id === currentTab[0].id) continue;
+			if (tab.id === currentTab[0].id || removed.includes(tab.id)) continue;
 
 			duplicates.push(tab.id);
 
@@ -29,6 +31,12 @@ browser.tabs.onActivated.addListener(async function () {
 	});
 
 	currentTab = null;
+
+	removed.splice(0);
+});
+
+browser.tabs.onRemoved.addListener(function (tabId) {
+	removed.push(tabId);
 });
 
 browser.action.onClicked.addListener(async () => {
