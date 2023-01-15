@@ -1,13 +1,13 @@
 {
 	"description": "Remove tab duplicates.",
-	"manifest_version": 2,
-	"version": "0.0.1",
+	"manifest_version": 3,
+	"version": "0.0.2",
 	"name": "duplicate-tab-remover",
 	"author": "Wenereth Arkhilmor",
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "duplicate-tab-remover@wenereth.arkhilmor",
-			"strict_min_version": "90.0"
+			"strict_min_version": "101.0"
 		}
 	},
 	"icons": {
@@ -18,14 +18,13 @@
 			"background.js"
 		]
 	},
-	"browser_action": {
+	"action": {
 		"browser_style": true,
 		"default_icon": {
 			"32": "trash.svg"
 		}
 	},
 	"permissions": [
-		"activeTab",
 		"notifications",
 		"tabs"
 	]

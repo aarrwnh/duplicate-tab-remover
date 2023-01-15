@@ -24,14 +24,14 @@ browser.tabs.onActivated.addListener(async function () {
 		}
 	}
 
-	browser.browserAction.setBadgeText({
+	browser.action.setBadgeText({
 		text: duplicates.length > 0 ? String(duplicates.length) : ""
 	});
 
 	currentTab = null;
 });
 
-browser.browserAction.onClicked.addListener(async () => {
+browser.action.onClicked.addListener(async () => {
 	if (duplicates.length > 0) {
 		await browser.tabs.remove([...new Set(duplicates)]);
 
@@ -42,6 +42,6 @@ browser.browserAction.onClicked.addListener(async () => {
 			iconUrl: browser.runtime.getURL("trash.svg")
 		});
 
-		browser.browserAction.setBadgeText({ text: "" });
+		browser.action.setBadgeText({ text: "" });
 	}
 });
