@@ -5,7 +5,7 @@ let duplicates = [];
 /** @type number[] */
 let removed = [];
 
-browser.tabs.onActivated.addListener(async function () {
+async function listener() {
 	currentTab = await browser.tabs.query({ active: true, windowId: browser.windows.WINDOW_ID_CURRENT });
 
 	if (currentTab.length !== 1) return;
@@ -33,7 +33,11 @@ browser.tabs.onActivated.addListener(async function () {
 	currentTab = null;
 
 	removed.splice(0);
-});
+}
+
+browser.tabs.onActivated.addListener(listener);
+browser.tabs.onUpdated.addListener(listener);
+browser.windows.onFocusChanged.addListener(listener)
 
 browser.tabs.onRemoved.addListener(function (tabId) {
 	removed.push(tabId);
