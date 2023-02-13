@@ -5,6 +5,8 @@ let duplicates = [];
 /** @type number[] */
 let removed = [];
 
+const NOTIFICATION_ID = "duplicate-tab-remover";
+
 async function listener() {
 	currentTab = await browser.tabs.query({ active: true, windowId: browser.windows.WINDOW_ID_CURRENT });
 
@@ -46,8 +48,8 @@ browser.tabs.onRemoved.addListener(function (tabId) {
 browser.action.onClicked.addListener(async () => {
 	if (duplicates.length > 0) {
 		await browser.tabs.remove([...new Set(duplicates)]);
-
-		browser.notifications.create({
+		browser.notifications.clear(NOTIFICATION_ID);
+		browser.notifications.create(NOTIFICATION_ID, {
 			type: "basic",
 			title: "Duplicate tab remover",
 			message: `Closed ${ duplicates.length } duplicate tab${ duplicates.length > 1 ? "s" : "" }`,
