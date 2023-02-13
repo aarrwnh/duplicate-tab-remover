@@ -11,7 +11,8 @@
 		}
 	},
 	"icons": {
-		"48": "trash.svg"
+		"48": "trash.svg",
+		"96": "trash.svg"
 	},
 	"background": {
 		"scripts": [
@@ -21,7 +22,8 @@
 	"action": {
 		"browser_style": true,
 		"default_icon": {
-			"32": "trash.svg"
+			"48": "trash.svg",
+			"96": "trash.svg"
 		}
 	},
 	"permissions": [
