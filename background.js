@@ -39,7 +39,7 @@ async function listener() {
 
 browser.tabs.onActivated.addListener(listener);
 browser.tabs.onUpdated.addListener(listener);
-browser.windows.onFocusChanged.addListener(listener)
+browser.windows.onFocusChanged.addListener(listener);
 
 browser.tabs.onRemoved.addListener(function (tabId) {
 	removed.push(tabId);
@@ -55,7 +55,9 @@ browser.action.onClicked.addListener(async () => {
 			message: `Closed ${ duplicates.length } duplicate tab${ duplicates.length > 1 ? "s" : "" }`,
 			iconUrl: browser.runtime.getURL("trash.svg")
 		});
-
+		setTimeout(() => {
+			browser.notifications.clear(NOTIFICATION_ID);
+		}, 1200);
 		browser.action.setBadgeText({ text: "" });
 	}
 });
