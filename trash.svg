@@ -6,6 +6,13 @@
 	xmlns="http://www.w3.org/2000/svg"
 	xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
 	xmlns:xlink="http://www.w3.org/1999/xlink">
+	<style>
+	@media (prefers-color-scheme: dark) {
+		path {
+			fill: #e2e2e2;
+		}
+	}
+	</style>
 	<g transform="scale(4)" fill="none" fill-rule="evenodd" id="miu" stroke="none" stroke-width="1">
 		<g transform="translate(-863.000000, -479.000000)">
 			<g id="slice" transform="translate(215.000000, 119.000000)"/>
