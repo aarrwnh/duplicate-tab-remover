@@ -1,0 +1,33 @@
+{
+	"$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
+	"nodeModulesDir": true,
+	"compilerOptions": {
+		"allowJs": true,
+		"lib": [
+			"deno.window"
+		],
+		"strict": true
+	},
+	"lint": {
+		"rules": {
+			"tags": [
+				"recommended"
+			],
+			"include": [
+				"ban-untagged-todo"
+			],
+			"exclude": [
+				"no-unused-vars"
+			]
+		}
+	},
+	"fmt": {
+		"options": {
+			"useTabs": true,
+			"lineWidth": 88,
+			"indentWidth": 4,
+			"singleQuote": false,
+			"proseWrap": "never"
+		}
+	}
+}

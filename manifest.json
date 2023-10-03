@@ -1,7 +1,7 @@
 {
 	"description": "Remove tab duplicates.",
 	"manifest_version": 3,
-	"version": "0.0.2",
+	"version": "0.0.5",
 	"name": "duplicate-tab-remover",
 	"author": "Wenereth Arkhilmor",
 	"browser_specific_settings": {
