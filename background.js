@@ -8,6 +8,9 @@ const removed = [];
 const NOTIFICATION_ID = "duplicate-tab-remover";
 
 function refresh() {
+	/** @type browser.tabs.Tab[] */
+	const temp = [];
+
 	browser.tabs.query({
 		active: true,
 		// status: "complete",
@@ -31,7 +34,9 @@ function refresh() {
 						continue;
 					}
 
-					if (!await autoRemover(tab)) {
+					if (canAutoRemove(tab.url)) {
+						temp.push(tab);
+					} else {
 						duplicates.push(tab);
 					}
 
@@ -44,15 +49,19 @@ function refresh() {
 				text: duplicates.length > 0 ? String(duplicates.length) : "",
 			});
 			removed.splice(0);
+			if (temp.length > 0) {
+				removeTabs(temp);
+			}
 		});
 }
 
-/**
- * @param {browser.tabs.Tab} tab
- */
-async function autoRemover(tab) {
-	if (tab.url.includes("pbs.twimg")) {
-		return await removeTabs([tab]), true;
+/** @param {string} url */
+function canAutoRemove(url) {
+	if (
+		url.includes("pbs.twimg") ||
+		url.includes("cdn.bsky.app/img/feed_fullsize/plain/")
+	) {
+		return true;
 	}
 	return false;
 }
@@ -84,9 +93,7 @@ browser.action.onClicked.addListener(function () {
 	}
 });
 
-/**
- * @param {browser.tabs.Tab[]} tabs
- */
+/** @param {browser.tabs.Tab[]} tabs */
 async function removeTabs(tabs) {
 	/** @type Set<number> */
 	const tabIds = new Set();
